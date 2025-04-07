@@ -1,16 +1,12 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { useRouter } from "next/navigation"
-import { ArrowRight, Clock } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Clock, ArrowRight } from "lucide-react"
 
 export default function RedirectPage({ params }: { params: { slug: string } }) {
-  const [countdown, setCountdown] = useState(30)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const router = useRouter()
-  const { slug } = params
+  const [countdown, setCountdown] = useState(45)
   const [countdownComplete, setCountdownComplete] = useState(false)
+  const { slug } = params
 
   useEffect(() => {
     if (countdown > 0) {
@@ -35,13 +31,6 @@ export default function RedirectPage({ params }: { params: { slug: string } }) {
     window.location.href = `https://leetcode.com/problems/${slug}`
   }
 
-  const handlePlayVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.play()
-      setIsPlaying(true)
-    }
-  }
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white p-4">
       <div className="max-w-3xl w-full bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
@@ -58,21 +47,18 @@ export default function RedirectPage({ params }: { params: { slug: string } }) {
             </div>
           </div>
 
-          <div className="relative rounded-lg overflow-hidden bg-black/30 aspect-video mb-6">
-            {!isPlaying ? (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button
-                  onClick={handlePlayVideo}
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transition-all transform hover:scale-105"
-                >
-                  Play Video <ArrowRight className="h-5 w-5" />
-                </button>
-              </div>
-            ) : null}
-            <video ref={videoRef} className="w-full h-full" controls={isPlaying} playsInline>
-              <source src="/video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          <div className="relative rounded-lg overflow-hidden bg-black/30 mb-6">
+            <div className="aspect-video w-full">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/mLUyRd9SmQw?si=_jS9I6xg9G3REQy5&autoplay=1"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
 
           <div className="text-center">
